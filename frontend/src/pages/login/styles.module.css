@@ -167,6 +167,7 @@
     width: 100%;
     max-width: 1200px;
     display: flex;
+    padding-left: 1px;
     justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
