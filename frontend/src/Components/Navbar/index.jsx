@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { reset } from "@/config/reducer/authReducer";
 import FlagMessage from "../Flashmessage";
 import { setFlashMessage } from "@/config/reducer/flashMessage";
+import Image from 'next/image';
 import { useEffect } from "react";
 
 function NavBarComponent() {
@@ -16,7 +17,7 @@ function NavBarComponent() {
   return (
     <div className={styles.container}>
       <nav className={styles.navBar}>
-        <img
+        <Image
         src="images/conclogo.png" alt="" 
           style={{ cursor: "pointer" }}
           onClick={() => {
@@ -24,7 +25,7 @@ function NavBarComponent() {
           }}
         >
         
-        </img>
+        </Image>
 <FlagMessage/>
         <div className={styles.navBarOptionContainer}>
           {authState.profileFetched && (
