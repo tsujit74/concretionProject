@@ -94,18 +94,20 @@ export default function DashboardLayout({ children }) {
           <div className={styles.extraContainer}>
             <h4>Top Profiles </h4>
             {authState.all_profiles_fetched &&
-              authState.all_users.map((profile) => {
-                return (
-                  <div
-                    className={styles.extraContainer_profile}
-                    onClick={() => {
-                      router.push(`/view_profile/${profile.userId.username}`);
-                    }}
-                  >
-                    <p>{profile.userId.name}</p>
-                  </div>
-                );
-              })}
+  authState.all_users.map((profile) => {
+    return (
+      <div
+        key={profile.userId._id} 
+        className={styles.extraContainer_profile}
+        onClick={() => {
+          router.push(`/view_profile/${profile.userId.username}`);
+        }}
+      >
+        <p>{profile.userId.name}</p>
+      </div>
+    );
+  })}
+
           </div>
         </div>
       </div>
