@@ -17,7 +17,7 @@ function NavBarComponent() {
   return (
     <div className={styles.container}>
       <nav className={styles.navBar}>
-        <Image
+        <img
         src="images/conclogo.png" alt="" 
           style={{ cursor: "pointer" }}
           onClick={() => {
@@ -25,7 +25,7 @@ function NavBarComponent() {
           }}
         >
         
-        </Image>
+        </img>
 <FlagMessage/>
         <div className={styles.navBarOptionContainer}>
           {authState.profileFetched && (
