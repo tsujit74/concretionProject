@@ -6,6 +6,7 @@
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
+  height: 90vh;
 }
 
 .update_profile_form h2, .update_profile_form h3 {
