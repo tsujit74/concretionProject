@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { setTokenIsThere } from "@/config/reducer/authReducer";
+import { reset, setTokenIsThere } from "@/config/reducer/authReducer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { setFlashMessage } from "@/config/reducer/flashMessage";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -186,6 +187,17 @@ export default function DashboardLayout({ children }) {
               d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
             />
           </svg>
+        </div>
+        <div
+          onClick={() => {
+            localStorage.removeItem("token");
+            dispatch(reset());
+            router.push("/login");
+            dispatch(setFlashMessage({message:"SucessFully Logged Out", type:"success"}))
+          }}
+          className={styles.mobileNavoption}
+        >
+          <img src="images/logout.svg" alt="" style={{background:"rgba(255, 0, 0, 0.5)",borderRadius:"50%"}} />
         </div>
       </div>
     </div>

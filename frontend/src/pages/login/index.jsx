@@ -119,7 +119,7 @@ export default function LoginComponent() {
       <div>
         <nav className={styles.navBar}>
           <img
-          src="images/conclogo"
+          src="images/conclogo.png"
             style={{ cursor: "pointer" }}
             onClick={() => {
               router.push("/");

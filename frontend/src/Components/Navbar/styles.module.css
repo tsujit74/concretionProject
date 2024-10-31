@@ -17,6 +17,7 @@
 .navBar img{
   width: 300px;
   height: 60px;
+  border-radius: 5px;
 }
 
 .buttonJoin {
@@ -51,6 +52,14 @@
     }
     .navBar{
         margin-top: 0;
+        padding: 0;
+        height: 70px;
+    }
+
+    .navBar img{
+      width: 200px;
+      height: 60px;
+      border-radius: 5px;
     }
 
     .navname{
