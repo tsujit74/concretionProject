@@ -1,0 +1,256 @@
+/* General Container Styling */
+.navBar{
+  display: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  height: 89vh;
+  align-items: center;
+  background-color: snow;
+}
+
+/* Card Container Styling */
+.cardContainer {
+  height: 70vh;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 80vw;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cardContainer_left {
+  flex: 0.6;
+  padding: 2rem;
+  text-align: center;
+}
+
+.cardleft_heading {
+  font-weight: bold;
+  font-size: 1.8rem;
+  padding-bottom: 10px;
+}
+
+/* Right Side Styling */
+.cardContainer_right {
+  flex: 0.4;
+  background-color: #00488b;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rightMessage {
+  font-size: 18px;
+  padding-inline: 1rem;
+  padding-block: 0.7rem;
+}
+
+/* Input Container */
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 70%;
+  margin: auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.inputRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.inputField {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1rem;
+  outline: none;
+  width: 65%;
+}
+
+.inputField:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Styling */
+.buttonWithOutline {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #afb8c1;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #000000;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buttonWithOutline:hover {
+  background-color: #4d4f51;
+  color: #fff;
+}
+
+.buttonWithOutlineRight {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 60%;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .cardContainer {
+      width: 90vw;
+  }
+
+  .cardleft_heading {
+      font-size: 1.6rem;
+  }
+
+  .inputContainer {
+      width: 80%;
+  }
+
+  .inputField {
+      width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .container{
+    height: auto;
+  }
+
+  .cardContainer {
+      flex-direction: column;
+      height: auto;
+      width: 90vw;
+  }
+
+  .cardContainer_left,
+  .cardContainer_right {
+      flex: 1;
+      padding: 1.5rem;
+  }
+
+  .cardleft_heading {
+      font-size: 1.4rem;
+  }
+
+  .inputContainer {
+      width: 90%;
+      padding: 1.5rem;
+  }
+
+  .navBar {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+  }
+  .mainContainer{
+    margin-top: 20px;
+  }
+  
+  
+  .navBar h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .navBar h1:hover {
+    color: #0073e6;
+  }
+  
+ 
+  .navBarOptionContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  
+  .buttonJoinNav {
+    background-color:#005bb5;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .buttonJoinNav p {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .buttonJoinNav:hover {
+    background-color: #005bb5;
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 480px) {
+  .cardContainer {
+      width: 100%;
+      border-radius: 0;
+      box-shadow: none;
+  }
+
+  .cardContainer_left,
+  .cardContainer_right {
+      padding: 1rem;
+  }
+
+  .cardleft_heading {
+      font-size: 1.2rem;
+  }
+
+  .rightMessage {
+      font-size: 16px;
+  }
+
+  .inputContainer {
+      width: 100%;
+      padding: 1rem;
+  }
+
+  .buttonWithOutline,
+  .buttonWithOutlineRight {
+      width: 100%;
+      padding: 0.5rem 1rem;
+  }
+}

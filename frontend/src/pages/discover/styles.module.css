@@ -1,0 +1,81 @@
+.pageHeader {
+    display: flex;
+  }
+  
+  .pageHeader h1 {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 1.5px;
+    margin: 0;
+    text-align: left;
+  }
+
+.allUserProfile {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .userProfileCard {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    height: fit-content;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .userProfileCard:hover {
+    transform: translateY(-5px);
+    border-bottom: 2px solid orange ;
+  }
+  
+  .userProfileCard img {
+    width: 70px;          
+    height: 70px;         
+    border-radius: 50%;   
+    object-fit: cover;   
+    border: 2px solid #ccc;       
+}
+
+  
+  .userInfo {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .userInfo h3 {
+    margin: 5px 0 5px;
+    font-size: 1.1em;
+    color: #333;
+  }
+  
+  .userInfo p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+    
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .allUserProfile {
+      grid-template-columns: 1fr;
+    }
+    .pageHeader h1 {
+        font-size: 2em;
+      }
+  }
+
+  @media (max-width: 480px) {
+    .pageHeader h1 {
+      font-size: 1.8em;
+    }
+  }
+  

@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  .backButton {
+    padding: 10px;
+  }
+  .backButton {
+    background-color: #dfdfdf;
+    display: inline-block;
+    
+    margin: 2px;
+  }
+}

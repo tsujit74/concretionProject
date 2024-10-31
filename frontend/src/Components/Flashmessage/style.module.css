@@ -1,0 +1,21 @@
+.flashMessage {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 99999999999;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+  }
+  
+  .flashMessage.success {
+    background-color: #4caf50;
+  }
+  
+  .flashMessage.error {
+    background-color: #f44336;
+  }
+  

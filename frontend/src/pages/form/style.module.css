@@ -1,0 +1,97 @@
+.update_profile_form {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.update_profile_form h2, .update_profile_form h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.update_profile_form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.update_profile_form input, 
+.update_profile_form textarea {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.update_profile_form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update_profile_form button:hover {
+  background-color: #0056b3;
+}
+
+.work_experience, .education_experience {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.field input[type="email"],
+.field input[type="text"],
+.field textarea {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.field input[type="email"]:focus,
+.field input[type="text"]:focus,
+.field textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.field textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+
+
+

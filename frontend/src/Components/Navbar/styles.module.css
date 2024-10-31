@@ -1,0 +1,61 @@
+
+
+.navBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff; 
+    padding: 10px 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    height: 70px;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+.navBar img{
+  width: 300px;
+  height: 60px;
+}
+
+.buttonJoin {
+    background-color:#005bb5;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .buttonJoin p {
+    margin: 0;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .navname{
+    cursor: pointer;
+  }
+  
+  .buttonJoin:hover {
+    background-color: #005bb5;
+    transform: translateY(-2px);
+  }
+
+@media (max-width: 768px) {
+    .navBar h1{
+        font-size: 1.3rem;
+    }
+    .navBar{
+        margin-top: 0;
+    }
+
+    .navname{
+        display: none;
+    }
+
+    .navBar{display: none;}
+}
