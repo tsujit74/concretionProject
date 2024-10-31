@@ -185,6 +185,7 @@
     height: 60px;
     border-radius: 5px;
     width: 200px;
+    margin-left: 2px;
   }
   
   .navBar h1 {
