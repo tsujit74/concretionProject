@@ -30,19 +30,31 @@ export default function Dashboard({ children }) {
   const postState = useSelector((state) => state.posts);
 
   useEffect(() => {
-    if (authState.isTokenThere) {
+    // Check if token is there and not loading posts
+    if (authState.isTokenThere && !authState.all_posts_fetched) {
       setIsLoading(true);
-      dispatch(getAllPosts());
-      dispatch(getAboutUser({ token: localStorage.getItem("token") })).finally(
-        () => setIsLoading(false)
-      );
+      dispatch(getAllPosts())
+        .catch((error) => console.error("Error fetching posts:", error))
+        .finally(() => setIsLoading(false));
     }
-
+  
+    // Fetch user profile information if token is present
+    if (authState.isTokenThere && !authState.user_fetched) {
+      setIsLoading(true);
+      dispatch(getAboutUser({ token: localStorage.getItem("token") }))
+        .catch((error) => console.error("Error fetching user profile:", error))
+        .finally(() => setIsLoading(false));
+    }
+  
+    // Fetch all user profiles if they haven’t been fetched yet
     if (!authState.all_profiles_fetched) {
       setIsLoading(true);
-      dispatch(getAllUsers()).finally(() => setIsLoading(false));
+      dispatch(getAllUsers())
+        .catch((error) => console.error("Error fetching user profiles:", error))
+        .finally(() => setIsLoading(false));
     }
-  }, [authState.isTokenThere]);
+  }, [authState.isTokenThere, authState.all_posts_fetched, authState.user_fetched, authState.all_profiles_fetched]);
+  
 
   const [postContent, setPostContent] = useState("");
   const [fileContent, setFileContent] = useState();
