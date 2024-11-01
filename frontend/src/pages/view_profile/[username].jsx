@@ -68,11 +68,17 @@ export default function ViewProfilePage({ userProfile }) {
   }, []);
 
   const handleDownload = async () => {
-    const response = await clientServer.get(
-      `api/users/download_resume?id=${userProfile.userId._id}`
-    );
-    window.open(`${BASE_URL}/${response.data.message}`, "_blank");
+    try {
+      const response = await clientServer.get(
+        `api/users/download_resume?id=${userProfile.userId._id}`
+      );
+      window.open(`${BASE_URL}/${response.data.message}`, "_blank");
+    } catch (error) {
+      console.error("Error downloading resume:", error);
+      alert("An error occurred while downloading the resume. Please try again later.");
+    }
   };
+  
 
   return (
     <UserLayout>
@@ -80,11 +86,19 @@ export default function ViewProfilePage({ userProfile }) {
         <BackButton/>
         <div className={styles.container}>
           <div className={styles.backDropContainer}>
-            <img
-              className="backDrop"
-              src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
-              alt="userPhoto"
-            />
+          {userProfile.userId.profilePicture === "default.jpg" ? (
+                <img
+                  src="/images/default.jpg"
+                  alt="You"
+                  className={styles.profileImage}
+                />
+              ) : (
+                <img
+                  src={userProfile.userId.profilePicture}
+                  alt={`${userProfile.userId.username}'s profile`}
+                  className={styles.profileImage}
+                />
+              )}
           </div>
 
           <div className={styles.profileContainer_details}>
@@ -137,7 +151,7 @@ export default function ViewProfilePage({ userProfile }) {
                           Add Friend
                         </button>
                       ))}
-                    <div
+                    {/* <div
                       onClick={() => {
                         handleDownload();
                       }}
@@ -157,7 +171,7 @@ export default function ViewProfilePage({ userProfile }) {
                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
                 ) : (
                   <></>
@@ -175,7 +189,7 @@ export default function ViewProfilePage({ userProfile }) {
                       <div className={styles.cardProfileContainer}>
                         {post.media !== "" ? (
                           <img
-                            src={`${BASE_URL}/${post.media}`}
+                            src={post.media}
                             alt="post media"
                           />
                         ) : null}

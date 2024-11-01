@@ -18,4 +18,12 @@
   .flashMessage.error {
     background-color: #f44336;
   }
+
+  @media (max-width: 768px) {
+    .flashMessage {
+      margin-top: 30%; 
+      right: auto;
+     
+    }
+  }
   

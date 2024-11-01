@@ -8,27 +8,28 @@ export const activeCheck = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  const { token } = req.body;
+  const { token, body } = req.body;
 
   try {
-    const user = await User.findOne({ token: token });
+    const user = await User.findOne({ token });
     if (!user) {
-      return res.status(404).json({ message: "User Not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const post = new Post({
       userId: user._id,
-      body: req.body.body,
-      media: req.file != undefined ? req.file.filename : "",
-      fileType: req.file != undefined ? req.file.mimetype.split("/")[1] : "",
+      body,
+      media: req.file ? req.file.path : '', 
+      fileType: req.file ? req.file.mimetype.split('/')[1] : '',
     });
 
     await post.save();
-    return res.status(200).json({ message: "Post Created" });
+    return res.status(200).json({ message: "Post created successfully", post });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: "Failed to create post", error: error.message });
   }
 };
+
 
 export const getAllPosts = async (req, res) => {
   try {

@@ -17,15 +17,14 @@ app.use(express.json());
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 
-app.use(express.static("uploads"));
+// app.use(express.static("uploads"));
 
 
 const start = async () => {
   try {
 
     await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      
     });
     console.log(`MongoDB Connected`);
 
@@ -40,8 +39,9 @@ const start = async () => {
 };
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+  console.error("Error stack:", err.stack);
+  res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
+
 
 start();

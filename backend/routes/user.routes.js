@@ -16,23 +16,41 @@ import {
 } from "../controllers/user.controller.js";
 import multer from "multer";
 import path from "path";
+import { userStorage } from "../cloudConfig.js";
 
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); 
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/"); 
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   }
+// });
+
+const upload = multer({ storage: userStorage }).single("profile_picture");
+
+router.post(
+  "/update_profile_picture",
+  (req, res, next) => {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        console.error("Multer error:", err);
+        return res
+          .status(500)
+          .json({ message: "Multer upload error", error: err.message });
+      } else if (err) {
+        console.error("Unknown error:", err.message);
+        return res
+          .status(500)
+          .json({ message: err.message, error: err.message });
+      }
+      next();
+    });
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage: storage });
-
-router
-  .route("/update_profile_picture")
-  .post(upload.single("profile_picture"), uploadProfilePicture);
+ uploadProfilePicture
+);
 
 
 router.route("/register").post(register);

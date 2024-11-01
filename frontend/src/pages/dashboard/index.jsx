@@ -33,36 +33,43 @@ export default function Dashboard({ children }) {
     if (authState.isTokenThere) {
       setIsLoading(true);
       dispatch(getAllPosts());
-      dispatch(getAboutUser({ token: localStorage.getItem("token") })).finally(()=>setIsLoading(false));
+      dispatch(getAboutUser({ token: localStorage.getItem("token") })).finally(
+        () => setIsLoading(false)
+      );
     }
 
     if (!authState.all_profiles_fetched) {
       setIsLoading(true);
-      dispatch(getAllUsers()).finally(()=>setIsLoading(false));
+      dispatch(getAllUsers()).finally(() => setIsLoading(false));
     }
   }, [authState.isTokenThere]);
 
   const [postContent, setPostContent] = useState("");
   const [fileContent, setFileContent] = useState();
   const [commentText, setCommentText] = useState("");
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handUpload = async () => {
     setIsLoading(true);
-  
+
     try {
-     
-      await dispatch(createPost({ file: fileContent, body: postContent })).unwrap();
-      dispatch(setFlashMessage({ message: "Post created successfully!", type: "success" }));
-  
-      
+      await dispatch(
+        createPost({ file: fileContent, body: postContent })
+      ).unwrap();
+      dispatch(
+        setFlashMessage({
+          message: "Post created successfully!",
+          type: "success",
+        })
+      );
+
       setFileContent(null);
       setPostContent("");
-  
-     
+
       await dispatch(getAllPosts()).unwrap();
     } catch (error) {
-      const errorMessage = error.message || "Failed to upload post. Please try again.";
+      const errorMessage =
+        error.message || "Failed to upload post. Please try again.";
       console.error("Error uploading post:", errorMessage);
 
       dispatch(setFlashMessage({ message: errorMessage, type: "error" }));
@@ -73,7 +80,7 @@ export default function Dashboard({ children }) {
 
   const handleDeletePost = async (postId) => {
     setIsLoading(true);
-  
+
     try {
       await dispatch(deletePost({ post_id: postId }));
       dispatch(
@@ -82,7 +89,7 @@ export default function Dashboard({ children }) {
           type: "success",
         })
       );
-  
+
       await dispatch(getAllPosts());
     } catch (error) {
       const errorMessage =
@@ -93,7 +100,6 @@ export default function Dashboard({ children }) {
       setIsLoading(false);
     }
   };
-  
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -123,20 +129,26 @@ export default function Dashboard({ children }) {
 
   return (
     <UserLayout>
-        
       <DashboardLayout>
-        
         <div className={styles.scrollComponent}>
-        <FlagMessage/>
-          {isLoading && <Spinner/>}
+          <FlagMessage />
+          {isLoading && <Spinner />}
           {authState.profileFetched && authState.user ? (
             <div className={styles.postContainer}>
               <div className={styles.createPostComponent}>
-                <img
-                  src={`${BASE_URL}/${authState.user.userId.profilePicture}`}
-                  alt="User photo"
-                  className={styles.userPhoto}
-                />
+                {authState.user.userId.profilePicture === "default.jpg" ? (
+                  <img
+                    src="/images/default.jpg"
+                    alt="user"
+                    className={styles.profileImage}
+                  />
+                ) : (
+                  <img
+                    src={authState.user.userId.profilePicture}
+                    alt={`${authState.user.userId.username}'s profile`}
+                    className={styles.profileImage}
+                  />
+                )}
                 <div className={styles.inputContainer}>
                   <textarea
                     onChange={(e) => setPostContent(e.target.value)}
@@ -182,63 +194,93 @@ export default function Dashboard({ children }) {
               )}
             </div>
           ) : (
-            <Spinner/>
+            <Spinner />
           )}
 
           {authState.profileFetched && authState.user ? (
-            <div className={styles.postsContainer} style={{opacity: isLoading? 0.5:1}}>
+            <div
+              className={styles.postsContainer}
+              style={{ opacity: isLoading ? 0.5 : 1 }}
+            >
               {postState.posts.map((post) => (
                 <div key={post._id} className={styles.postCard}>
                   <div className={styles.postHeader}>
-                    <img
-                      src={`${BASE_URL}/${post.userId.profilePicture}`}
-                      alt={`${post.userId.username}'s profile`}
-                      className={styles.profileImage}
-                    />
+                    {post.userId ? (
+                      post.userId.profilePicture === "default.jpg" ? (
+                        <img
+                          src="/images/default.jpg"
+                          alt="user"
+                          className={styles.profileImage}
+                        />
+                      ) : (
+                        <img
+                          src={post.userId.profilePicture}
+                          alt={`${post.userId.username || "User"}'s profile`}
+                          className={styles.profileImage}
+                        />
+                      )
+                    ) : (
+                      <img
+                        src="/images/default.jpg"
+                        alt="user"
+                        className={styles.profileImage}
+                      />
+                    )}
                     <div className={styles.postUserInfo}>
-                      <h4 className={styles.username}>{post.userId.name}</h4>
-
-                      <div>
-                        <p className={styles.name}>{post.userId.username}</p>
-                        <p className={styles.timestamp}>
-                          {timeAgo(post.createdAt)}
-                        </p>
-                      </div>
+                      {post.userId ? (
+                        <>
+                          <h4 className={styles.username}>
+                            {post.userId.name}
+                          </h4>
+                          <div>
+                            <p className={styles.name}>
+                              {post.userId.username}
+                            </p>
+                            <p className={styles.timestamp}>
+                              {timeAgo(post.createdAt)}
+                            </p>
+                          </div>
+                        </>
+                      ) : (
+                        <p className={styles.username}>User</p>
+                      )}
                     </div>
 
-                    {post.userId._id === authState.user.userId._id && (
-                      <div
-                        onClick={async () => {
-                          handleDeletePost(post._id)
-                        }}
-                        className={styles.trash}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="red"
-                          width="24"
-                          height="24"
+                    {post.userId &&
+                      post.userId._id &&
+                      authState.user &&
+                      authState.user.userId &&
+                      post.userId._id === authState.user.userId._id && (
+                        <div
+                          onClick={async () => {
+                            handleDeletePost(post._id);
+                          }}
+                          className={styles.trash}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                          />
-                        </svg>
-                      </div>
-                    )}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="red"
+                            width="24"
+                            height="24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                            />
+                          </svg>
+                        </div>
+                      )}
                   </div>
 
                   <p className={styles.postDescription}>{post.body}</p>
 
-                  <img
-                    src={`${BASE_URL}/${post.media}`}
-                    alt="Post content"
-                    className={styles.postImage}
-                  />
+                  {post.media && (
+                    <img src={post.media} alt="" className={styles.postImage} />
+                  )}
 
                   <div
                     style={{ padding: "6px", fontSize: "12px" }}

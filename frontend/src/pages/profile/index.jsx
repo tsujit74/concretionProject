@@ -62,10 +62,10 @@ export default function ProfilePage() {
   return (
     <UserLayout>
       <DashboardLayout>
-      <BackButton/>
+        <BackButton />
         {authState.user && userProfile.userId && (
           <div className={styles.container}>
-            <FlagMessage/>
+            <FlagMessage />
             <div className={styles.backDropContainer}>
               <label
                 htmlFor="uploadProfilePic"
@@ -95,11 +95,19 @@ export default function ProfilePage() {
                 id="uploadProfilePic"
                 hidden
               />
-              <img
-                className="backDrop"
-                src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
-                alt="userPhoto"
-              />
+              {userProfile.userId.profilePicture === "default.jpg" ? (
+                <img
+                  src="images/default.jpg"
+                  alt="user"
+                  className={styles.profileImage}
+                />
+              ) : (
+                <img
+                  src={userProfile.userId.profilePicture}
+                  alt={`${userProfile.userId.username}'s profile`}
+                  className={styles.profileImage}
+                />
+              )}
             </div>
 
             <div className={styles.profileContainer_details}>
@@ -121,7 +129,12 @@ export default function ProfilePage() {
                       @{userProfile.userId.username}
                     </p>
                   </div>
-                  <button className={styles.editBtn} onClick={()=>router.push("/form")}>Edit Details</button>
+                  <button
+                    className={styles.editBtn}
+                    onClick={() => router.push("/form")}
+                  >
+                    Edit Details
+                  </button>
                 </div>
 
                 <div

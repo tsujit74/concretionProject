@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Profile from "./profile.model.js";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -35,6 +36,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+});
+
+UserSchema.pre('remove', async function (next) {
+  try {
+    await Profile.findOneAndDelete({ userId: this._id });
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 const User  = mongoose.model("User",UserSchema);

@@ -95,20 +95,22 @@ export default function DashboardLayout({ children }) {
           <div className={styles.extraContainer}>
             <h4>Top Profiles </h4>
             {authState.all_profiles_fetched &&
-  authState.all_users.map((profile) => {
-    return (
-      <div
-        key={profile.userId._id} 
-        className={styles.extraContainer_profile}
-        onClick={() => {
-          router.push(`/view_profile/${profile.userId.username}`);
-        }}
-      >
-        <p>{profile.userId.name}</p>
-      </div>
-    );
-  })}
-
+  authState.all_users
+    .filter((profile) => profile.userId && profile.userId.name) // Ensure userId and userId.name exist
+    .slice(0, 5)
+    .map((profile) => {
+      return (
+        <div
+          key={profile._id}
+          className={styles.extraContainer_profile}
+          onClick={() => {
+            router.push(`/view_profile/${profile.userId.username}`);
+          }}
+        >
+          <p>{profile.userId.name}</p>
+        </div>
+      );
+    })}
           </div>
         </div>
       </div>
@@ -166,11 +168,14 @@ export default function DashboardLayout({ children }) {
           }}
           className={styles.mobileNavoption}
         >
-          <img src="images/user.png" alt="" />
+          <img src="/images/user.png" alt="" />
         </div>
-        <div onClick={()=>{
-          router.push("/profile")
-        }} className={styles.mobileNavoption}>
+        <div
+          onClick={() => {
+            router.push("/profile");
+          }}
+          className={styles.mobileNavoption}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -193,11 +198,20 @@ export default function DashboardLayout({ children }) {
             localStorage.removeItem("token");
             dispatch(reset());
             router.push("/login");
-            dispatch(setFlashMessage({message:"SucessFully Logged Out", type:"success"}))
+            dispatch(
+              setFlashMessage({
+                message: "SucessFully Logged Out",
+                type: "success",
+              })
+            );
           }}
           className={styles.mobileNavoption}
         >
-          <img src="images/logout.svg" alt="" style={{background:"rgba(255, 0, 0, 0.5)",borderRadius:"50%"}} />
+          <img
+            src="/images/logout.svg"
+            alt=""
+            style={{ background: "rgba(255, 0, 0, 0.5)", borderRadius: "50%" }}
+          />
         </div>
       </div>
     </div>

@@ -45,10 +45,19 @@ export default function DiscoverPage() {
                     }}
                     className={styles.userProfileCard}
                   >
-                    <img
-                      src={`${BASE_URL}/${user.userId.profilePicture}`}
-                      alt="user photo"
-                    />
+                   {user.userId.profilePicture === "default.jpg" ? (
+                <img
+                  src="images/default.jpg"
+                  alt="You"
+                  className={styles.profileImage}
+                />
+              ) : (
+                <img
+                  src={user.userId.profilePicture}
+                  alt={`${user.userId.username}'s profile`}
+                  className={styles.profileImage}
+                />
+              )}
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
                       <p>@{user.userId.username}</p>
@@ -69,10 +78,19 @@ export default function DiscoverPage() {
                       }}
                       className={styles.userProfileCard}
                     >
-                      <img
-                        src={`${BASE_URL}/${user.userId.profilePicture}`}
-                        alt="user photo"
-                      />
+                     {user.userId.profilePicture === "default.jpg" ? (
+                <img
+                  src="images/default.jpg"
+                  alt="You"
+                  className={styles.profileImage}
+                />
+              ) : (
+                <img
+                  src={user.userId.profilePicture}
+                  alt={`${user.userId.username}'s profile`}
+                  className={styles.profileImage}
+                />
+              )}
                       <div className={styles.userInfo}>
                         <h3>{user.userId.name}</h3>
                         <p>@{user.userId.username}</p>

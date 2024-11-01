@@ -18,7 +18,7 @@ function NavBarComponent() {
     <div className={styles.container}>
       <nav className={styles.navBar}>
         <img
-        src="images/conclogo.png" alt="" 
+        src="/images/conclogo.png" alt="" 
           style={{ cursor: "pointer" }}
           onClick={() => {
             router.push("/");

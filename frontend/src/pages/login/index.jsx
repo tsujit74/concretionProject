@@ -12,6 +12,7 @@ import { emptyMessage } from "@/config/reducer/authReducer";
 import BackButton from "@/Components/Backbutton";
 import Spinner from "@/Components/Spinner";
 import { setFlashMessage } from "@/config/reducer/flashMessage";
+import FlagMessage from "@/Components/Flashmessage";
 
 export default function LoginComponent() {
   const authState = useSelector((state) => state.auth);
@@ -45,7 +46,8 @@ export default function LoginComponent() {
   }, [userLoginMethod]);
 
   const handleRegister = async () => {
-    if (!name || !username || !password || !email) {
+    // Check for required fields
+    if (name==='' || username===''  || password===''  || email==='' ) {
       dispatch(
         setFlashMessage({
           message: "All fields are required.",
@@ -54,18 +56,20 @@ export default function LoginComponent() {
       );
       return; 
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    dispatch(
-      setFlashMessage({
-        message: "Please enter a valid email address.",
-        type: "error",
-      })
-    );
-    return;
-  }
   
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      dispatch(
+        setFlashMessage({
+          message: "Please enter a valid email address.",
+          type: "error",
+        })
+      );
+      return;
+    }
+  
+    // Validate password length
     if (password.length < 6) {
       dispatch(
         setFlashMessage({
@@ -73,14 +77,17 @@ export default function LoginComponent() {
           type: "error",
         })
       );
-      return;}
+      return;
+    }
   
+    // Proceed with registration
     setIsLoading(true);
     try {
       await dispatch(registerUser({ username, password, email, name }));
       dispatch(
         setFlashMessage({ message: "Successfully Registered", type: "success" })
       );
+      setUserLoginMethod(true);
     } catch (error) {
       const errorMessage = error.message || "Registration failed. Please try again.";
       dispatch(setFlashMessage({ message: errorMessage, type: "error" }));
@@ -88,6 +95,7 @@ export default function LoginComponent() {
       setIsLoading(false);
     }
   };
+  
   
   const handleLogin = async () => {
     setIsLoading(true);
@@ -117,9 +125,10 @@ export default function LoginComponent() {
   return (
     <UserLayout>
       <div>
+        <FlagMessage/>
         <nav className={styles.navBar}>
           <img
-          src="images/conclogo.png"
+          src="/images/conclogo.png"
             style={{ cursor: "pointer" }}
             onClick={() => {
               router.push("/");

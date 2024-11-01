@@ -47,12 +47,12 @@ const convertUserDataTOPDF = async (userData) => {
   doc.fontSize(14).text(`Bio: ${userData.userId.bio || "N/A"}`);
   doc
     .fontSize(14)
-    .text(`Current Position: ${userData.userId.currentPost || "N/A"}`);
+    .text(`Current Position: ${userData.userId.postWork || "N/A"}`);
 
-  if (Array.isArray(userData.pastWork) && userData.pastWork.length > 0) {
+  if (Array.isArray(userData.postWork) && userData.postWork.length > 0) {
     doc.fontSize(14).text("Past Work");
-    userData.pastWork.forEach((work, index) => {
-      doc.fontSize(14).text(`Company Name: ${work.companyName || "N/A"}`);
+    userData.postWork.forEach((work, index) => {
+      doc.fontSize(14).text(`Company Name: ${work.company|| "N/A"}`);
       doc.fontSize(14).text(`Position: ${work.position || "N/A"}`);
       doc.fontSize(14).text(`Years: ${work.years || "N/A"}`);
     });
@@ -160,7 +160,7 @@ export const uploadProfilePicture = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    user.profilePicture = req.file.filename;
+    user.profilePicture = req.file.path;
     await user.save();
 
     return res.json({ message: "Profile picture updated successfully" });
