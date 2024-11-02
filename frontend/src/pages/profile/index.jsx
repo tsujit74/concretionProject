@@ -9,6 +9,8 @@ import { getAllPosts } from "@/config/action/postAction";
 import { useRouter } from "next/router";
 import BackButton from "@/Components/Backbutton";
 import FlagMessage from "@/Components/Flashmessage";
+import Spinner from "@/Components/Spinner";
+import { setFlashMessage } from "@/config/reducer/flashMessage";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ export default function ProfilePage() {
 
   const [userProfile, setUserProfile] = useState({});
   const [userPosts, setUserPosts] = useState([]);
+  const [isLoading,setIsLoading]  = useState(false);
 
   useEffect(() => {
     dispatch(getAboutUser({ token: localStorage.getItem("token") }));
@@ -40,6 +43,7 @@ export default function ProfilePage() {
     formData.append("token", localStorage.getItem("token"));
 
     try {
+      setIsLoading(true)
       const response = await clientServer.post(
         "api/users/update_profile_picture",
         formData,
@@ -48,25 +52,32 @@ export default function ProfilePage() {
             "Content-Type": "multipart/form-data",
           },
         }
+        
       );
+      
 
       if (response.status === 200) {
         console.log(response.data.message);
         dispatch(getAboutUser({ token: localStorage.getItem("token") }));
+        dispatch(setFlashMessage({message:"Profile Photo uploaded", type:"sucess"}))
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error uploading profile picture:", error);
+      dispatch(setFlashMessage({message:error, type:"error"}))
     }
   };
 
   return (
     <UserLayout>
+      <FlagMessage />
       <DashboardLayout>
         <BackButton />
         {authState.user && userProfile.userId && (
           <div className={styles.container}>
-            <FlagMessage />
+            
             <div className={styles.backDropContainer}>
+              
               <label
                 htmlFor="uploadProfilePic"
                 className={styles.backDrop_overlay}
@@ -96,11 +107,15 @@ export default function ProfilePage() {
                 hidden
               />
               {userProfile.userId.profilePicture === "default.jpg" ? (
-                <img
+                <div>
+                  <img
                   src="images/default.jpg"
                   alt="user"
                   className={styles.profileImage}
                 />
+               
+                </div>
+                
               ) : (
                 <img
                   src={userProfile.userId.profilePicture}
@@ -111,6 +126,7 @@ export default function ProfilePage() {
             </div>
 
             <div className={styles.profileContainer_details}>
+            {isLoading && <Spinner/>}
               <div
                 style={{ display: "flex", gap: "0.7rem" }}
                 className={styles.details}

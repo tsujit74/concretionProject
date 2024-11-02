@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,6 +11,28 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const [activeOption, setActiveOption] = useState('');
+
+  useEffect(() => {
+    const { pathname } = router;
+
+    // Set active option based on the current URL
+    if (pathname === "/dashboard") {
+      setActiveOption('scroll');
+    }
+    if (pathname === "/discover") {
+      setActiveOption('search');
+    }
+    if (pathname === "/myconnection") {
+      setActiveOption('connection');
+    }
+  }, [router.pathname]);
+
+  const handleNavigation = (path) => {
+    setActiveOption(path);
+    router.push(path);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
@@ -26,9 +48,10 @@ export default function DashboardLayout({ children }) {
           <div className={styles.homeContainer_leftBar}>
             <div
               onClick={() => {
-                router.push("/dashboard");
+                handleNavigation("/dashboard")
+                
               }}
-              className={styles.sideBarOption}
+              className={`${styles.sideBarOption} ${activeOption === 'scroll' ? styles.active : ''}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +71,9 @@ export default function DashboardLayout({ children }) {
             </div>
             <div
               onClick={() => {
-                router.push("/discover");
+                handleNavigation("/discover")
               }}
-              className={styles.sideBarOption}
+              className={`${styles.sideBarOption} ${activeOption === 'search' ? styles.active : ''}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,9 +93,9 @@ export default function DashboardLayout({ children }) {
             </div>
             <div
               onClick={() => {
-                router.push("/myconnection");
+                handleNavigation("myconnection")
               }}
-              className={styles.sideBarOption}
+              className={`${styles.sideBarOption} ${activeOption === 'connection' ? styles.active : ''}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

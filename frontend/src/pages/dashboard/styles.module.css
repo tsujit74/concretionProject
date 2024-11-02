@@ -132,6 +132,7 @@
   align-items: center;
   padding: 1px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .profileImage {
@@ -328,6 +329,34 @@
 }
 
 
+.imagePreviewOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px; 
+z-index: 1001;}
+
+.imagePreviewContent {
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.imagePreviewImage {
+  width: 100%;
+  height: auto;
+  max-height: 80vh; 
+  max-width: 90vw; 
+  object-fit: contain; 
+}
   
   /* Responsive */
   @media (max-width: 768px) {
@@ -423,5 +452,18 @@ display: none;
     .commentLeft p{
       font-size: 12px;
     }
+
+    
+
+  .imagePreviewContent {
+    max-width: 100vw;
+    max-height: 85vh;
   }
+
+  .imagePreviewImage {
+    max-width: 100vw;
+    max-height: 85vh;
+  }
+}
+  
   

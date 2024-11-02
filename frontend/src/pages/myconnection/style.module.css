@@ -84,6 +84,7 @@
   .connectionContainer {
     flex-direction: row;
     gap: 30px;
+    margin-bottom: 30px;
   }
 
   .connectionRequests,

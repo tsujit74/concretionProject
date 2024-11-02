@@ -41,7 +41,11 @@ export default function DiscoverPage() {
                   <div
                     key={user._id}
                     onClick={() => {
-                      router.push(`/view_profile/${user.userId.username}`);
+                      if (authState.user.userId.username === user.userId.username) {
+                        router.push("/profile");
+                      } else {
+                        router.push(`/view_profile/${post.userId.username}`);
+                      }
                     }}
                     className={styles.userProfileCard}
                   >

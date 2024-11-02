@@ -78,6 +78,11 @@ export default function ViewProfilePage({ userProfile }) {
       alert("An error occurred while downloading the resume. Please try again later.");
     }
   };
+
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const openPreview = () => setIsPreviewOpen(true);
+  const closePreview = () => setIsPreviewOpen(false);
   
 
   return (
@@ -91,15 +96,41 @@ export default function ViewProfilePage({ userProfile }) {
                   src="/images/default.jpg"
                   alt="You"
                   className={styles.profileImage}
+                  onClick={()=>openPreview(true)}
                 />
               ) : (
                 <img
                   src={userProfile.userId.profilePicture}
                   alt={`${userProfile.userId.username}'s profile`}
                   className={styles.profileImage}
+                  onClick={()=>openPreview(true)}
                 />
               )}
           </div>
+
+
+
+
+          {isPreviewOpen && (
+        <div className={styles.previewOverlay} onClick={closePreview}>
+          <div className={styles.previewContent} onClick={(e) => e.stopPropagation()}>
+            <img
+              src={
+                userProfile.userId.profilePicture === "default.jpg"
+                  ? "/images/default.jpg"
+                  : userProfile.userId.profilePicture
+              }
+              alt={`${userProfile.userId.username}'s profile`}
+              className={styles.previewImage}
+            />
+            
+          </div>
+        </div>
+      )}
+
+
+
+
 
           <div className={styles.profileContainer_details}>
             <div
@@ -178,27 +209,7 @@ export default function ViewProfilePage({ userProfile }) {
                 )}
               </div>
 
-              <div
-                style={{ flex: "0.2" }}
-                className={styles.recentActivityContainer}
-              >
-                <h3 className={styles.recentActivityTitle}>Recent</h3>
-                {userPosts.slice(0, 1).map((post) => (
-                  <div key={post._id} className={styles.PostCard}>
-                    <div className={styles.card}>
-                      <div className={styles.cardProfileContainer}>
-                        {post.media !== "" ? (
-                          <img
-                            src={post.media}
-                            alt="post media"
-                          />
-                        ) : null}
-                      </div>
-                      <p>{post.body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+             
             </div>
           </div>
           <div className={styles.userDetails}>
@@ -248,6 +259,27 @@ export default function ViewProfilePage({ userProfile }) {
                 </p>
               )}
             </div>
+            <div
+                style={{ flex: "0.2" }}
+                className={styles.recentActivityContainer}
+              >
+                <h3 className={styles.recentActivityTitle}>Recent</h3>
+                {userPosts.map((post) => (
+                  <div key={post._id} className={styles.PostCard}>
+                    <div className={styles.card}>
+                      <div className={styles.cardProfileContainer}>
+                        {post.media !== "" ? (
+                          <img
+                            src={post.media}
+                            alt="post media"
+                          />
+                        ) : null}
+                      </div>
+                      <p>{post.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
           </div>
         </div>
       </DashboardLayout>

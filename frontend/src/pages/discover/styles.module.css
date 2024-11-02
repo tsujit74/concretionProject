@@ -67,6 +67,7 @@
   @media (max-width: 600px) {
     .allUserProfile {
       grid-template-columns: 1fr;
+      margin-bottom: 30px;
     }
     .pageHeader h1 {
         font-size: 2em;

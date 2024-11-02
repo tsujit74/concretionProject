@@ -15,11 +15,12 @@ export default function UserLayout({children}) {
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("No token found in local storage.");
+      setIsLoading(false);
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     const fetchData = async () => {
       try {
         await Promise.all([
@@ -34,9 +35,9 @@ export default function UserLayout({children}) {
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
-  }, []);
+  }, [dispatch]);
   
   return (
     <div>

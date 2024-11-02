@@ -29,6 +29,21 @@ export default function Dashboard({ children }) {
 
   const postState = useSelector((state) => state.posts);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const openModal = (post) => {
+    setSelectedPost(post); // Set the post to preview
+    setIsImageModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsImageModalOpen(false);
+    setSelectedPost(null); // Clear the selected post when modal is closed
+  };
+
   useEffect(() => {
     // Check if token is there and not loading posts
     if (authState.isTokenThere && !authState.all_posts_fetched) {
@@ -37,7 +52,7 @@ export default function Dashboard({ children }) {
         .catch((error) => console.error("Error fetching posts:", error))
         .finally(() => setIsLoading(false));
     }
-  
+
     // Fetch user profile information if token is present
     if (authState.isTokenThere && !authState.user_fetched) {
       setIsLoading(true);
@@ -45,7 +60,7 @@ export default function Dashboard({ children }) {
         .catch((error) => console.error("Error fetching user profile:", error))
         .finally(() => setIsLoading(false));
     }
-  
+
     // Fetch all user profiles if they haven’t been fetched yet
     if (!authState.all_profiles_fetched) {
       setIsLoading(true);
@@ -53,8 +68,12 @@ export default function Dashboard({ children }) {
         .catch((error) => console.error("Error fetching user profiles:", error))
         .finally(() => setIsLoading(false));
     }
-  }, [authState.isTokenThere, authState.all_posts_fetched, authState.user_fetched, authState.all_profiles_fetched]);
-  
+  }, [
+    authState.isTokenThere,
+    authState.all_posts_fetched,
+    authState.user_fetched,
+    authState.all_profiles_fetched,
+  ]);
 
   const [postContent, setPostContent] = useState("");
   const [fileContent, setFileContent] = useState();
@@ -153,12 +172,14 @@ export default function Dashboard({ children }) {
                     src="/images/default.jpg"
                     alt="user"
                     className={styles.profileImage}
+                    onClick={()=> router.push("/profile")}
                   />
                 ) : (
                   <img
                     src={authState.user.userId.profilePicture}
                     alt={`${authState.user.userId.username}'s profile`}
                     className={styles.profileImage}
+                    onClick={()=> router.push("/profile")}
                   />
                 )}
                 <div className={styles.inputContainer}>
@@ -216,7 +237,18 @@ export default function Dashboard({ children }) {
             >
               {postState.posts.map((post) => (
                 <div key={post._id} className={styles.postCard}>
-                  <div className={styles.postHeader}>
+                  <div
+                    onClick={() => {
+                      if (
+                        authState.user.userId.username === post.userId.username
+                      ) {
+                        router.push("/profile");
+                      } else {
+                        router.push(`/view_profile/${post.userId.username}`);
+                      }
+                    }}
+                    className={styles.postHeader}
+                  >
                     {post.userId ? (
                       post.userId.profilePicture === "default.jpg" ? (
                         <img
@@ -291,7 +323,7 @@ export default function Dashboard({ children }) {
                   <p className={styles.postDescription}>{post.body}</p>
 
                   {post.media && (
-                    <img src={post.media} alt="" className={styles.postImage} />
+                    <img src={post.media} alt="" className={styles.postImage} onClick={()=>openModal(post)} />
                   )}
 
                   <div
@@ -395,68 +427,88 @@ export default function Dashboard({ children }) {
         </div>
       </DashboardLayout>
 
-      {postState.postId !== "" && (
-        <div
-          onClick={() => {
-            dispatch(resetPostId());
-          }}
-          className={styles.commentContainer}
-        >
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className={styles.allCommentsContainer}
-          >
-            <div className={styles.postedComment}>
-              {postState.comments.length > 0 ? (
-                postState.comments.map((postComment) => (
-                  <div
-                    key={postComment._id}
-                    className={
-                      postComment.userId.username ===
-                      authState.user.userId.username
-                        ? `${styles.commentItem} ${styles.commentRight}`
-                        : `${styles.commentItem} ${styles.commentLeft}`
-                    }
-                  >
-                    <p>
-                      <strong>
-                        {postComment.userId.username ===
-                        authState.user.userId.username
-                          ? `You (${authState.user.userId.name})`
-                          : postComment.userId.username}
-                        :
-                      </strong>
-                    </p>
-                    <p>{postComment.body}</p>
-                  </div>
-                ))
-              ) : (
-                <h3>No comments</h3>
-              )}
-            </div>
 
-            <div className={styles.postCommentContainer}>
-              <input
-                type="text"
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Comment"
-              />
-              <div
-                onClick={async () => {
-                  await dispatch(
-                    postComment({
-                      post_id: postState.postId,
-                      body: commentText,
-                    })
-                  );
-                  await dispatch(getAllComments({ post_id: postState.postId }));
-                  setCommentText("");
-                }}
-                className={styles.commentContainer_button}
-              >
-                <p>Comment</p>
+      {isImageModalOpen && selectedPost && (
+  <div className={styles.imagePreviewOverlay} onClick={closeModal}>
+    <div className={styles.imagePreviewContent} onClick={(e) => e.stopPropagation()}>
+      <img
+        src={selectedPost.media}
+        alt="Expanded post preview"
+        className={styles.imagePreviewImage}
+        style={{ maxHeight: '80vh', maxWidth: '90vw' }} // Ensure the image fits within viewport height
+      />
+      <button className={styles.imagePreviewCloseButton} onClick={closeModal}>close</button>
+    </div>
+  </div>
+)}
+      
+
+      {postState.postId !== "" && (
+        <div>
+          <div
+            onClick={() => {
+              dispatch(resetPostId());
+            }}
+            className={styles.commentContainer}
+          >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className={styles.allCommentsContainer}
+            >
+              <div className={styles.postedComment}>
+                {postState.comments.length > 0 ? (
+                  postState.comments.map((postComment) => (
+                    <div
+                      key={postComment._id}
+                      className={
+                        postComment.userId.username ===
+                        authState.user.userId.username
+                          ? `${styles.commentItem} ${styles.commentRight}`
+                          : `${styles.commentItem} ${styles.commentLeft}`
+                      }
+                    >
+                      <p>
+                        <strong>
+                          {postComment.userId.username ===
+                          authState.user.userId.username
+                            ? `You (${authState.user.userId.name})`
+                            : postComment.userId.username}
+                          :
+                        </strong>
+                      </p>
+                      <p>{postComment.body}</p>
+                    </div>
+                  ))
+                ) : (
+                  <h3>No comments</h3>
+                )}
+              </div>
+
+              <div className={styles.postCommentContainer}>
+                <input
+                  type="text"
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Comment"
+                />
+                <div
+                  onClick={async () => {
+                    await dispatch(
+                      postComment({
+                        post_id: postState.postId,
+                        body: commentText,
+                      })
+                    );
+                    await dispatch(
+                      getAllComments({ post_id: postState.postId })
+                    );
+                    setCommentText("");
+                  }}
+                  className={styles.commentContainer_button}
+                >
+                  <p>Comment</p>
+                </div>
               </div>
             </div>
           </div>
