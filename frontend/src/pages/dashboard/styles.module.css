@@ -365,6 +365,7 @@ z-index: 1001;}
 
     .scrollComponent{
       padding: 0;
+      margin-bottom: 40px;
     }
 
     .postContainer {
