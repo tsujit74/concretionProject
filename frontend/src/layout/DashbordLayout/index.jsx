@@ -221,6 +221,89 @@ export default function DashboardLayout({ children }) {
             />
           </svg>
         </div>
+        <div className={styles.iconContainer}>
+          <div
+            onClick={() => setShowModal(!showModal)}
+            className={styles.mobileNavOption}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+              width={28}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+          </div>
+          {showModal && (
+            <div
+              className={styles.modalOverlay}
+              onClick={() => setShowModal(false)}
+            >
+              <div
+                className={styles.modalContent}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {authState.user.userId.role === "admin" && (
+                  <div
+                    onClick={() => {
+                      router.push("/admin");
+                      setShowModal(false);
+                    }}
+                    className={styles.modalOption}
+                  >
+                    Admin
+                  </div>
+                )}
+
+                <div
+                  onClick={() => {
+                    router.push("/profile");
+                    setShowModal(false);
+                  }}
+                  className={styles.modalOption}
+                >
+                  Profile
+                </div>
+
+                <div
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    dispatch(reset());
+                    router.push("/login");
+                    dispatch(
+                      setFlashMessage({
+                        message: "Successfully Logged Out",
+                        type: "success",
+                      })
+                    );
+                    setShowModal(false);
+                  }}
+                  style={{ color: "red" }}
+                  className={styles.modalOption}
+                >
+                  Logout
+                </div>
+                {/* <div
+                  onClick={() => {
+                    router.push("/contact");
+                    setShowModal(false);
+                  }}
+                  className={styles.modalOption}
+                >
+                  Contact
+                </div> */}
+              </div>
+            </div>
+          )}
+          </div>
       </div>
     </div>
   );
