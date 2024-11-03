@@ -251,17 +251,18 @@ export default function DashboardLayout({ children }) {
                 className={styles.modalContent}
                 onClick={(e) => e.stopPropagation()}
               >
-                {authState.user.userId.role === "admin" && (
-                  <div
-                    onClick={() => {
-                      router.push("/admin");
-                      setShowModal(false);
-                    }}
-                    className={styles.modalOption}
-                  >
-                    Admin
-                  </div>
-                )}
+                {authState.user &&
+                  authState.user.userId &&
+                  authState.user.userId.role === "admin" && (
+                    <div
+                      onClick={() => {
+                        router.push("/admin");
+                      }}
+                      className={styles.modalOption}
+                    >
+                      Admin
+                    </div>
+                  )}
 
                 <div
                   onClick={() => {
@@ -303,7 +304,7 @@ export default function DashboardLayout({ children }) {
               </div>
             </div>
           )}
-          </div>
+        </div>
       </div>
     </div>
   );
