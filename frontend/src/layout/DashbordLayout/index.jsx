@@ -11,21 +11,21 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  const [activeOption, setActiveOption] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [activeOption, setActiveOption] = useState("");
 
   useEffect(() => {
     const { pathname } = router;
 
     // Set active option based on the current URL
     if (pathname === "/dashboard") {
-      setActiveOption('scroll');
+      setActiveOption("scroll");
     }
     if (pathname === "/discover") {
-      setActiveOption('search');
+      setActiveOption("search");
     }
     if (pathname === "/myconnection") {
-      setActiveOption('connection');
+      setActiveOption("connection");
     }
   }, [router.pathname]);
 
@@ -48,10 +48,11 @@ export default function DashboardLayout({ children }) {
           <div className={styles.homeContainer_leftBar}>
             <div
               onClick={() => {
-                handleNavigation("/dashboard")
-                
+                handleNavigation("/dashboard");
               }}
-              className={`${styles.sideBarOption} ${activeOption === 'scroll' ? styles.active : ''}`}
+              className={`${styles.sideBarOption} ${
+                activeOption === "scroll" ? styles.active : ""
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +72,11 @@ export default function DashboardLayout({ children }) {
             </div>
             <div
               onClick={() => {
-                handleNavigation("/discover")
+                handleNavigation("/discover");
               }}
-              className={`${styles.sideBarOption} ${activeOption === 'search' ? styles.active : ''}`}
+              className={`${styles.sideBarOption} ${
+                activeOption === "search" ? styles.active : ""
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,9 +96,11 @@ export default function DashboardLayout({ children }) {
             </div>
             <div
               onClick={() => {
-                handleNavigation("myconnection")
+                handleNavigation("myconnection");
               }}
-              className={`${styles.sideBarOption} ${activeOption === 'connection' ? styles.active : ''}`}
+              className={`${styles.sideBarOption} ${
+                activeOption === "connection" ? styles.active : ""
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -118,22 +123,22 @@ export default function DashboardLayout({ children }) {
           <div className={styles.extraContainer}>
             <h4>Top Profiles </h4>
             {authState.all_profiles_fetched &&
-  authState.all_users
-    .filter((profile) => profile.userId && profile.userId.name) // Ensure userId and userId.name exist
-    .slice(0, 5)
-    .map((profile) => {
-      return (
-        <div
-          key={profile._id}
-          className={styles.extraContainer_profile}
-          onClick={() => {
-            router.push(`/view_profile/${profile.userId.username}`);
-          }}
-        >
-          <p>{profile.userId.name}</p>
-        </div>
-      );
-    })}
+              authState.all_users
+                .filter((profile) => profile.userId && profile.userId.name) // Ensure userId and userId.name exist
+                .slice(0, 5)
+                .map((profile) => {
+                  return (
+                    <div
+                      key={profile._id}
+                      className={styles.extraContainer_profile}
+                      onClick={() => {
+                        router.push(`/view_profile/${profile.userId.username}`);
+                      }}
+                    >
+                      <p>{profile.userId.name}</p>
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
@@ -215,26 +220,6 @@ export default function DashboardLayout({ children }) {
               d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
             />
           </svg>
-        </div>
-        <div
-          onClick={() => {
-            localStorage.removeItem("token");
-            dispatch(reset());
-            router.push("/login");
-            dispatch(
-              setFlashMessage({
-                message: "SucessFully Logged Out",
-                type: "success",
-              })
-            );
-          }}
-          className={styles.mobileNavoption}
-        >
-          <img
-            src="/images/logout.svg"
-            alt=""
-            style={{ background: "rgba(255, 0, 0, 0.5)", borderRadius: "50%" }}
-          />
         </div>
       </div>
     </div>

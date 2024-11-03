@@ -1,76 +1,76 @@
 /* Main container for the admin dashboard */
 .admin_container {
-    padding: 20px;
-    margin: auto;
-    background-color: #f9f9fb;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    height: 89vh;
+  padding: 20px;
+  margin: auto;
+  background-color: #f9f9fb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 89vh;
 }
 
 /* Heading */
 .admin_heading {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 600;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
 }
-
 
 /* User management header section */
 .user_management {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #555;
 }
 
 .user_management h3 {
-    font-size: 1.3rem;
-    color: #333;
-    margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  margin: 0;
 }
 
 .user_count {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #4a90e2;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4a90e2;
 }
 
 /* Table styling */
 .userTable {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    overflow-x: auto;
-    white-space: nowrap;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .userTable thead {
-    background-color: #4a90e2;
-    color: #fff;
+  background-color: #4a90e2;
+  color: #fff;
 }
 
-.userTable th, .userTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.userTable th,
+.userTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
 
 .userTable th {
-    font-weight: 600;
-    font-size: 1rem;
-    background-color: #f2f2f2;
-    color: black;
-    padding: 15px;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #f2f2f2;
+  color: black;
+  padding: 15px;
 }
 
 .userTable tbody tr:nth-child(even) {
-    background-color: #f4f4f9;
+  background-color: #f4f4f9;
 }
 
 /* .userTable td {
@@ -87,173 +87,213 @@
     font-size: 0.9rem;
 } */
 
-.userTable .edit{
-    background-color: #0371acdb;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-right:10px ;
+.userTable .edit {
+  background-color: #0371acdb;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 10px;
 }
 
-.updateBtn{
-    background-color: #0371acdb;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-right:10px ;
+.updateBtn {
+  background-color: #0371acdb;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 10px;
 }
 
-.userTable .delete{
-    background-color: #db2121db;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
+.userTable .delete {
+  background-color: #db2121db;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .userTable .delete:hover {
-    background-color: #ff0000db;
-    color: #000000;
+  background-color: #ff0000db;
+  color: #000000;
 }
 
 .edit:hover {
-    background-color: #00bbffcf;
+  background-color: #00bbffcf;
 }
 
 .updateBtn:hover {
-    background-color: #00bbffcf;
+  background-color: #00bbffcf;
 }
 
 .adminRow {
-    background-color: #b8b8b8;
-    color: #000000;
-    font-weight: bold;
-  }
+  background-color: #b8b8b8;
+  color: #000000;
+  font-weight: bold;
+}
 
+.modal_overlay {
+  position: absolute;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.84);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  left: 50%;
+  margin: 0 auto;
+}
 
-  .modal_overlay {
-    position: absolute;
-    height: auto;
-    background-color: rgba(0, 0, 0, 0.84);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    left: 50%;
-    margin: 0 auto;
-  }
-  
-  /* Modal Container */
-  .modal_content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-    position: absolute;
-    z-index: 1001;
-    top: 20%;
-    left: 30%;
-    margin: 0 auto;
-  
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  /* Input Field Styling */
-  .modal_content input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-  }
+/* Modal Container */
+.modal_content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 1001;
+  top: 20%;
+  left: 30%;
+  margin: 0 auto;
 
-  .modal_content select{
-    width: 100%;
-    padding: 10px;
-    margin-top:5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .modal_close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: black;
-    font-size: 28px;
-    border-radius: 50%;
-    padding: 5px 10px;
-  }
-  
-  .modal_close:hover {
-    background-color: rgba(255, 0, 0, 0.163);
-  }
+  transition: transform 0.3s ease-in-out;
+}
 
+/* Input Field Styling */
+.modal_content input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.modal_content select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal_close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: black;
+  font-size: 28px;
+  border-radius: 50%;
+  padding: 5px 10px;
+}
+
+.modal_close:hover {
+  background-color: rgba(255, 0, 0, 0.163);
+}
+
+.mobileNavbar {
+  display: none;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .admin_container {
+    padding: 10px;
+  }
+  .admin_heading {
+    font-size: 1.5rem;
+  }
 
-    .admin_container{
-        padding: 10px;
-    }
-    .admin_heading {
-        font-size: 1.5rem;
-    }
+  .user_management {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .user_management {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .user_count {
+    font-size: 1rem;
+  }
 
-    .user_count {
-        font-size: 1rem;
-    }
+  .userTable th,
+  .userTable td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
 
-    .userTable th, .userTable td {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
+  .userTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 
-    .userTable {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
+  .modal_overlay {
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal_content {
+    top: 20%;
+    left: auto;
+    width: 95%;
+    margin: 0 auto;
+  }
 
-    .modal_overlay {
-        left: 0;
-        top: 0;
-        margin: 0 auto;
-        width: 95%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .modal_content {
-        top: 20%;
-        left: auto;
-        width: 95%;
-        margin: 0 auto;
-      }
+  .mobileNavbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #e0e0e0;
+    z-index: 1000;
+  }
+
+  .mobileNavoption {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #606060;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .mobileNavoption svg {
+    color: black;
+  }
+
+  .mobileNavoption img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .mobileNavoption:hover {
+    background: none;
+  }
 }
 
 /* Hide scrollbar */
 .userTable::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
