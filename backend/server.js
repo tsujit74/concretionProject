@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import postRoutes from './routes/posts.routes.js';
 import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js'
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/admin",adminRoutes);
 
 // app.use(express.static("uploads"));
 

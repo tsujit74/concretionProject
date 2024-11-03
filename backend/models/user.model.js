@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  role: { type: String, default: 'user' }
 });
 
 UserSchema.pre('remove', async function (next) {

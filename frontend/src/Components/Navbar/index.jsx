@@ -40,6 +40,26 @@ function NavBarComponent() {
                 >
                   Profile
                 </p>
+                {authState.user.userId.role === "admin" && (
+                  <div style={{ display: "flex", gap: "1.2rem" }}>
+                    <p
+                      style={{ fontWeight: "bold", cursor: "pointer" }}
+                      onClick={() => {
+                        router.push("/admin"); // Admin Dashboard
+                      }}
+                    >
+                      Admin
+                    </p>
+                    {/* <p
+                      style={{ fontWeight: "bold", cursor: "pointer" }}
+                      onClick={() => {
+                        router.push("/admin/users"); // User Management
+                      }}
+                    >
+                      User Management
+                    </p> */}
+                  </div>
+                )}
                 <p
                   onClick={() => {
                     localStorage.removeItem("token");

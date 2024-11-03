@@ -206,7 +206,7 @@ export const getUserAndProfile = async (req, res) => {
     }
     const userProfile = await Profile.findOne({ userId: user._id }).populate(
       "userId",
-      "name email username profilePicture"
+      "name email username profilePicture role"
     );
 
     return res.json(userProfile);
