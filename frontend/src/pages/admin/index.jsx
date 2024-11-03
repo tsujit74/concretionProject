@@ -13,11 +13,14 @@ import {
 } from "@/config/action/authAction";
 import { getAllPosts } from "@/config/action/postAction";
 import axios from "axios";
+import BackButton from "@/Components/Backbutton";
+import Spinner from "@/Components/Spinner";
 
 export default function Admin() {
   const router = useRouter();
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading,setIsLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -35,6 +38,7 @@ export default function Admin() {
 
   const fetchUsers = async () => {
     try {
+      setIsLoading(true)
       const token = localStorage.getItem("token");
 
       const response = await fetch(`${BASE_URL}/api/admin/get_users`, {
@@ -53,6 +57,8 @@ export default function Admin() {
       }
     } catch (err) {
       setError("Failed to load data.");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -64,6 +70,7 @@ export default function Admin() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm(`Are you sure you want to delete this user? ${userId}`)) {
       try {
+        setIsLoading(true)
         const token = localStorage.getItem("token");
         await axios.delete(`${BASE_URL}/api/admin/delete_user/${userId}`, {
           headers: {
@@ -73,6 +80,8 @@ export default function Admin() {
         fetchUsers();
       } catch (err) {
         setError(err);
+      }finally{
+        setIsLoading(false)
       }
     }
   };
@@ -95,6 +104,7 @@ export default function Admin() {
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       const token = localStorage.getItem("token");
       await axios.put(
         `${BASE_URL}/api/admin/edit_user/${editingUser}`,
@@ -112,6 +122,8 @@ export default function Admin() {
       setEditingUser(null);
     } catch (error) {
       setError(error.response?.data?.message || "Error updating user.");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -123,6 +135,7 @@ export default function Admin() {
   return (
     <AdminLayout>
       <div className={styles.admin_container}>
+        <BackButton/>
         <h1 className={styles.admin_heading}>Admin Dashboard</h1>
 
         <div className={styles.user_management}>
@@ -131,6 +144,7 @@ export default function Admin() {
         </div>
 
         <table className={styles.userTable}>
+          {isLoading && <Spinner/>}
           <thead>
             <tr>
               <th>ID</th>
