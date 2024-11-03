@@ -23,7 +23,7 @@ const userStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'concretion/user',  
-    allowed_formats: ["png", "jpg", "jpeg"], 
+    allowed_formats: ["png", "jpg", "jpeg", "webp"], 
   },
 });
 
