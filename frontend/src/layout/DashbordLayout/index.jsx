@@ -224,7 +224,7 @@ export default function DashboardLayout({ children }) {
         <div className={styles.iconContainer}>
           <div
             onClick={() => setShowModal(!showModal)}
-            className={styles.mobileNavOption}
+            className={styles.mobileNavoption}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +233,7 @@ export default function DashboardLayout({ children }) {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-6"
-              width={28}
+              width={32}
             >
               <path
                 strokeLinecap="round"
@@ -272,6 +272,16 @@ export default function DashboardLayout({ children }) {
                   className={styles.modalOption}
                 >
                   Profile
+                </div>
+
+                <div
+                  onClick={() => {
+                    router.push("/contact");
+                    setShowModal(false);
+                  }}
+                  className={styles.modalOption}
+                >
+                  Contact
                 </div>
 
                 <div

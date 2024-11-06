@@ -14,6 +14,14 @@ import Comment from "../models/comments.model.js";
 import Post from "../models/posts.model.js";
 import { connections } from "mongoose";
 
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 export const activeCheck = async (req, res) => {
   return res.status(200).json({ message: "Running" });
 };
@@ -82,13 +90,7 @@ export const register = async (req, res) => {
     const profile = new Profile({ userId: newUser._id });
     await profile.save();
 
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+   
 
     const mailOptions = {
       to: email,
@@ -412,3 +414,50 @@ export const getUserProfileAndUserBasedOneUsername = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+export const sendMessage = async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400)
+      .json({ message: "Please fill in all the fields." });
+  }
+
+  const mailOptions = {
+    from: email,
+    to: process.env.EMAIL_USER,
+    subject: `Contact from ${name}`,
+    text: message,
+    replyTo: email,
+  };
+
+  const userReplyOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: `Thank you for contacting us, ${name}`,
+    text: `Dear ${name},\n\nThank you for reaching out. We have received your message and will get back to you shortly.\n\n\nBest regards,\nApna Video Team`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+
+    await transporter.sendMail(userReplyOptions);
+    return res
+      .status(200)
+      .json({ message: "Message sent successfully!" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res
+      .status(404)
+      .json({ message: "Error sending message. Please try again.." });
+  }
+};
+
+
+// export const editUser = async (req,res) => {
+//   const {name,email,token,...userData} = req.body;
+
+//   const user = await User.findOne({token:token})
+
+
+// }

@@ -1,0 +1,163 @@
+.contactContainer {
+  max-width: 80%;
+  margin: auto;
+  padding: 20px;
+  margin-top: 40px;
+  line-height: 1.6;
+}
+
+.introSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.introSection h2 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.introSection p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.mainContact {
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: auto;
+}
+
+.mainContact_left {
+  width: 90%;
+}
+
+.mainContact_right {
+  width: 100%;
+  height: auto;
+}
+
+.mainContact_right img {
+  margin-left: 30%;
+  width: 70%;
+}
+
+.formSection h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.successMessage {
+  color: green;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: #0070f3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #005bb5;
+}
+
+.contactInfo {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.contactInfo p,
+.contactInfo a {
+  font-size: 1rem;
+  color: #666;
+}
+
+.contactInfo a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.contactInfo a:hover {
+  text-decoration: underline;
+}
+
+.socialLinks {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.socialLinks img {
+  font-size: 1.2rem;
+  color: #0070f3;
+  width: 60%;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px){
+
+  .contactContainer{
+    width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  margin-top: 0;
+  line-height: 1.6;
+  }
+
+  .introSection p{
+    display: none;
+  }
+
+  .mainContact{
+    display: block;
+    width: 99%;
+  }
+
+  .mainContact_left h3{
+    display: none;
+  }
+
+  .mainContact_right{
+    display: none;
+  }
+}

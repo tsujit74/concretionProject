@@ -81,7 +81,7 @@ export default function Home() {
         {/* Call to Action Section */}
         <section className={styles.ctaSection}>
           <h2>Ready to Make Real Connections?</h2>
-          <p>Join your colleagues, classmates, and friends on LinkedIn.</p>
+          <p>Join your colleagues, classmates, and friends on Concretion.</p>
           <button
             className={styles.ctaButton}
             onClick={() => router.push("/login")}

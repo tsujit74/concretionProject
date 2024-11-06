@@ -1,0 +1,54 @@
+.aboutContainer {
+  max-width: 80%;
+  margin: auto;
+  padding: 20px;
+  margin-top: 50px;
+  line-height: 1.6;
+}
+
+.introSection,
+.missionSection,
+.visionSection,
+.valuesSection,
+.teamSection {
+  margin-bottom: 20px;
+}
+
+.introSection h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.missionSection h3 {
+  font-size: 1.8rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.visionSection p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.valuesSection ul {
+  list-style: none;
+  padding: 0;
+}
+
+.introSection ul li {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.valuesSection strong {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .aboutContainer {
+    width: 100%;
+    padding: 0px;
+    margin-top: 0px;
+  }
+}
