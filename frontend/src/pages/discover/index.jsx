@@ -1,12 +1,15 @@
 import { getAboutUser, getAllUsers } from "@/config/action/authAction";
 import DashboardLayout from "@/layout/DashbordLayout";
 import UserLayout from "@/layout/UserLayout";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles.module.css";
 import { BASE_URL } from "@/config";
 import { useRouter } from "next/router";
 import BackButton from "@/Components/Backbutton";
+import { setFlashMessage } from "@/config/reducer/flashMessage";
+import FlagMessage from "@/Components/Flashmessage";
+import Search from "@/Components/Search";
 
 export default function DiscoverPage() {
   const authState = useSelector((state) => state.auth);
@@ -26,11 +29,16 @@ export default function DiscoverPage() {
 
   return (
     <UserLayout>
+       <FlagMessage/>
       <DashboardLayout>
-        <BackButton/>
-        <div className={styles.pageHeader}>
-          <h1>Discover</h1>
+        <div className={styles.discover_head}>
+         
+          <BackButton />
+          <Search/>
         </div>
+        {/* <div className={styles.pageHeader}>
+          <h1>Discover</h1>
+        </div> */}
 
         <div className={styles.allUserProfile}>
           {authState.profileFetched ? (
@@ -41,7 +49,9 @@ export default function DiscoverPage() {
                   <div
                     key={user._id}
                     onClick={() => {
-                      if (authState.user.userId.username === user.userId.username) {
+                      if (
+                        authState.user.userId.username === user.userId.username
+                      ) {
                         router.push("/profile");
                       } else {
                         router.push(`/view_profile/${post.userId.username}`);
@@ -49,19 +59,19 @@ export default function DiscoverPage() {
                     }}
                     className={styles.userProfileCard}
                   >
-                   {user.userId.profilePicture === "default.jpg" ? (
-                <img
-                  src="images/default.jpg"
-                  alt="You"
-                  className={styles.profileImage}
-                />
-              ) : (
-                <img
-                  src={user.userId.profilePicture}
-                  alt={`${user.userId.username}'s profile`}
-                  className={styles.profileImage}
-                />
-              )}
+                    {user.userId.profilePicture === "default.jpg" ? (
+                      <img
+                        src="images/default.jpg"
+                        alt="You"
+                        className={styles.profileImage}
+                      />
+                    ) : (
+                      <img
+                        src={user.userId.profilePicture}
+                        alt={`${user.userId.username}'s profile`}
+                        className={styles.profileImage}
+                      />
+                    )}
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
                       <p>@{user.userId.username}</p>
@@ -82,19 +92,19 @@ export default function DiscoverPage() {
                       }}
                       className={styles.userProfileCard}
                     >
-                     {user.userId.profilePicture === "default.jpg" ? (
-                <img
-                  src="images/default.jpg"
-                  alt="You"
-                  className={styles.profileImage}
-                />
-              ) : (
-                <img
-                  src={user.userId.profilePicture}
-                  alt={`${user.userId.username}'s profile`}
-                  className={styles.profileImage}
-                />
-              )}
+                      {user.userId.profilePicture === "default.jpg" ? (
+                        <img
+                          src="images/default.jpg"
+                          alt="You"
+                          className={styles.profileImage}
+                        />
+                      ) : (
+                        <img
+                          src={user.userId.profilePicture}
+                          alt={`${user.userId.username}'s profile`}
+                          className={styles.profileImage}
+                        />
+                      )}
                       <div className={styles.userInfo}>
                         <h3>{user.userId.name}</h3>
                         <p>@{user.userId.username}</p>

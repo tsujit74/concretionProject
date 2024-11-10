@@ -1,0 +1,52 @@
+.container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.userProfileCard {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    height: fit-content;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .userProfileCard:hover {
+    transform: translateY(-5px);
+    border-bottom: 2px solid orange ;
+  }
+  
+  .userProfileCard img {
+    width: 70px;          
+    height: 70px;         
+    border-radius: 50%;   
+    object-fit: cover;   
+    border: 2px solid #ccc;       
+}
+
+  
+  .userInfo {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .userInfo h3 {
+    margin: 5px 0 5px;
+    font-size: 1.1em;
+    color: #333;
+  }
+  
+  .userInfo p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+    
+  }

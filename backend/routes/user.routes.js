@@ -9,6 +9,7 @@ import {
   getUserProfileAndUserBasedOneUsername,
   login,
   register,
+  search,
   sendConnectionRequest,
   sendMessage,
   updateUserProfile,
@@ -68,5 +69,6 @@ router.route("/user_connection_request").get(whatAreMyConnections);
 router.route("/accept_connection_request").post(acceptConnectionRequest);
 router.route("/get_profile_based_on_username").get(getUserProfileAndUserBasedOneUsername);
 router.route("/send_message").post(sendMessage);
+router.route("/search").get(search);
 
 export default router;

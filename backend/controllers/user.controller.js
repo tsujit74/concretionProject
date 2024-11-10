@@ -60,7 +60,7 @@ const convertUserDataTOPDF = async (userData) => {
   if (Array.isArray(userData.postWork) && userData.postWork.length > 0) {
     doc.fontSize(14).text("Past Work");
     userData.postWork.forEach((work, index) => {
-      doc.fontSize(14).text(`Company Name: ${work.company|| "N/A"}`);
+      doc.fontSize(14).text(`Company Name: ${work.company || "N/A"}`);
       doc.fontSize(14).text(`Position: ${work.position || "N/A"}`);
       doc.fontSize(14).text(`Years: ${work.years || "N/A"}`);
     });
@@ -84,13 +84,16 @@ export const register = async (req, res) => {
     if (user) return res.status(400).json({ message: "User already exists!" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, username });
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      username,
+    });
     await newUser.save();
 
     const profile = new Profile({ userId: newUser._id });
     await profile.save();
-
-   
 
     const mailOptions = {
       to: email,
@@ -100,8 +103,10 @@ export const register = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    
-    return res.json({ message: "User registered successfully and email sent!" });
+
+    return res.json({
+      message: "User registered successfully and email sent!",
+    });
   } catch (error) {
     console.error(error); // Log the error for debugging
     return res.status(500).json({ message: error.message });
@@ -419,8 +424,7 @@ export const sendMessage = async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
-    return res.status(400)
-      .json({ message: "Please fill in all the fields." });
+    return res.status(400).json({ message: "Please fill in all the fields." });
   }
 
   const mailOptions = {
@@ -442,9 +446,7 @@ export const sendMessage = async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     await transporter.sendMail(userReplyOptions);
-    return res
-      .status(200)
-      .json({ message: "Message sent successfully!" });
+    return res.status(200).json({ message: "Message sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);
     res
@@ -453,11 +455,28 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const search = async (req, res) => {
+  const searchQuery = req.query.q;
+  if (!searchQuery) {
+    return res.status(400).json({ message: "Search query is required" });
+  }
+
+  const searchReg = new RegExp(searchQuery, "i");
+
+  try {
+    const users = await User.find({
+      $or: [{ username: searchReg }, { name: searchReg }],
+    }).select("username name profilePicture");
+    return res.status(200).json(users);
+  } catch (err) {
+    console.error("Error during user search:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 // export const editUser = async (req,res) => {
 //   const {name,email,token,...userData} = req.body;
 
 //   const user = await User.findOne({token:token})
-
 
 // }
