@@ -3,9 +3,12 @@ import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
 import UserLayout from "@/layout/UserLayout";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth);
 
   return (
     <UserLayout>
@@ -19,23 +22,74 @@ export default function Home() {
 
       <div className={styles.container}>
         <nav className={styles.navBar}>
-        <img
-        src="images/conclogo.png" alt="" 
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            router.push("/");
-          }}
-        />
+          <img
+            src="images/conclogo.png"
+            alt=""
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              router.push("/");
+            }}
+          />
 
           <div className={styles.navBarOptionContainer}>
-            <div
-              onClick={() => {
-                router.push("/login");
-              }}
-              className={styles.buttonJoinNav}
-            >
-              <p>Be a part</p>
-            </div>
+            {authState.profileFetched && (
+              <div>
+                <div style={{ display: "flex", gap: "1.2rem" }}>
+                  <p className={styles.navname}>
+                    {" "}
+                    {authState.user.userId.name}{" "}
+                  </p>
+                  {/* <p
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    onClick={() => {
+                      router.push("/profile");
+                    }}
+                  >
+                    Profile
+                  </p> */}
+                  {authState.user.userId.role === "admin" && (
+                    <div style={{ display: "flex", gap: "1.2rem" }}>
+                      {/* <p
+                        style={{ fontWeight: "bold", cursor: "pointer" }}
+                        onClick={() => {
+                          router.push("/admin"); // Admin Dashboard
+                        }}
+                      >
+                        Admin
+                      </p> */}
+                      {/* <p
+                      style={{ fontWeight: "bold", cursor: "pointer" }}
+                      onClick={() => {
+                        router.push("/admin/users"); // User Management
+                      }}
+                    >
+                      User Management
+                    </p> */}
+                    </div>
+                  )}
+                  <p
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      dispatch(reset());
+                      router.push("/login");
+                      dispatch(
+                        setFlashMessage({
+                          message: "SucessFully Logged Out",
+                          type: "success",
+                        })
+                      );
+                    }}
+                    style={{
+                      fontWeight: "500",
+                      cursor: "pointer",
+                      color: "red",
+                    }}
+                  >
+                    Logout
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </nav>
 

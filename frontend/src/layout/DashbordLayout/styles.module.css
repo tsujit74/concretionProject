@@ -182,6 +182,10 @@
     height: 25px;
   }
 
+  .profileImage{
+    border-radius: 50%;
+  }
+
   .mobileNavoption:hover {
     background: none;
   }

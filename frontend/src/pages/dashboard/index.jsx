@@ -35,17 +35,16 @@ export default function Dashboard({ children }) {
   const [selectedPost, setSelectedPost] = useState(null);
 
   const openModal = (post) => {
-    setSelectedPost(post); // Set the post to preview
+    setSelectedPost(post); 
     setIsImageModalOpen(true);
   };
 
   const closeModal = () => {
     setIsImageModalOpen(false);
-    setSelectedPost(null); // Clear the selected post when modal is closed
+    setSelectedPost(null);
   };
 
   useEffect(() => {
-    // Check if token is there and not loading posts
     if (authState.isTokenThere && !authState.all_posts_fetched) {
       setIsLoading(true);
       dispatch(getAllPosts())
@@ -53,7 +52,6 @@ export default function Dashboard({ children }) {
         .finally(() => setIsLoading(false));
     }
 
-    // Fetch user profile information if token is present
     if (authState.isTokenThere && !authState.user_fetched) {
       setIsLoading(true);
       dispatch(getAboutUser({ token: localStorage.getItem("token") }))
@@ -61,7 +59,6 @@ export default function Dashboard({ children }) {
         .finally(() => setIsLoading(false));
     }
 
-    // Fetch all user profiles if they haven’t been fetched yet
     if (!authState.all_profiles_fetched) {
       setIsLoading(true);
       dispatch(getAllUsers())

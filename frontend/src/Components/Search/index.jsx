@@ -29,7 +29,7 @@ export default function Search() {
         <input
           type="search"
           name="q"
-          class={styles.search_input}
+          className={styles.search_input}
           id="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

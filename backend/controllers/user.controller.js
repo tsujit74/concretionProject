@@ -148,7 +148,12 @@ export const login = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    return res.json({ token });
+    return res.json({ token, user: {
+      username: user.username,
+      email: user.email,
+      name:user.name,
+      profilePicture,
+    }, });
   } catch (error) {
     console.error(error); // Log the error for debugging
     return res.status(500).json({ message: error.message });

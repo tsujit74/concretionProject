@@ -109,6 +109,12 @@ export default function LoginComponent() {
       setIsLoading(false);
     }
   };
+
+  const handleKeyDown = async (e) => {
+    if(e.key === 'Enter'){
+      handleLogin();
+    }
+  }
   
 
   useEffect(() => {
@@ -180,12 +186,14 @@ export default function LoginComponent() {
                         className={styles.inputField}
                         type="text"
                         placeholder="Username"
+                        onKeyDown={handleKeyDown}
                       />
                       <input
                         onChange={(e) => setName(e.target.value)}
                         className={styles.inputField}
                         type="text"
                         placeholder="Full Name"
+                        onKeyDown={handleKeyDown}
                       />
                     </>
                   )}
@@ -196,6 +204,7 @@ export default function LoginComponent() {
                     className={styles.inputField}
                     type="email"
                     placeholder="Email"
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
                 <div className={styles.inputRow}>
@@ -204,6 +213,7 @@ export default function LoginComponent() {
                     className={styles.inputField}
                     type="password"
                     placeholder="Password"
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
 
