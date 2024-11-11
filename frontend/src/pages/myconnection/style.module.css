@@ -6,7 +6,7 @@
 
 .connectionContainer h3,
 .connectionContainer h4 {
-  margin-bottom: 10px;
+  margin-bottom: 1px;
   color: #333;
   font-weight: 600;
 }
@@ -36,6 +36,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
   cursor: pointer;
+  margin-bottom: 5px;
 }
 
 .userProfileCard:hover {

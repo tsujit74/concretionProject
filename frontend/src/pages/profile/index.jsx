@@ -1,4 +1,7 @@
-import { getAboutUser } from "@/config/action/authAction";
+import {
+  getAboutUser,
+  getMyConnectionsRequest,
+} from "@/config/action/authAction";
 import DashboardLayout from "@/layout/DashbordLayout";
 import UserLayout from "@/layout/UserLayout";
 import React, { useEffect, useState } from "react";
@@ -20,11 +23,12 @@ export default function ProfilePage() {
 
   const [userProfile, setUserProfile] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-  const [isLoading,setIsLoading]  = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getAboutUser({ token: localStorage.getItem("token") }));
     dispatch(getAllPosts());
+    dispatch(getMyConnectionsRequest({ token: localStorage.getItem("token") }));
   }, []);
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function ProfilePage() {
     formData.append("token", localStorage.getItem("token"));
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await clientServer.post(
         "api/users/update_profile_picture",
         formData,
@@ -52,19 +56,19 @@ export default function ProfilePage() {
             "Content-Type": "multipart/form-data",
           },
         }
-        
       );
-      
 
       if (response.status === 200) {
         console.log(response.data.message);
         dispatch(getAboutUser({ token: localStorage.getItem("token") }));
-        dispatch(setFlashMessage({message:"Profile Photo uploaded", type:"sucess"}))
+        dispatch(
+          setFlashMessage({ message: "Profile Photo uploaded", type: "sucess" })
+        );
         setIsLoading(false);
       }
     } catch (error) {
       console.error("Error uploading profile picture:", error);
-      dispatch(setFlashMessage({message:error, type:"error"}))
+      dispatch(setFlashMessage({ message: error, type: "error" }));
     }
   };
 
@@ -72,12 +76,15 @@ export default function ProfilePage() {
     <UserLayout>
       <FlagMessage />
       <DashboardLayout>
-        <BackButton />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <BackButton />{" "}
+          <div style={{ margin: "0 auto", fontWeight: "bold" }}>
+            {userProfile.userId ? <p>{userProfile.userId.name}</p>:<p></p>}
+          </div>
+        </div>
         {authState.user && userProfile.userId && (
           <div className={styles.container}>
-            
             <div className={styles.backDropContainer}>
-              
               <label
                 htmlFor="uploadProfilePic"
                 className={styles.backDrop_overlay}
@@ -109,13 +116,11 @@ export default function ProfilePage() {
               {userProfile.userId.profilePicture === "default.jpg" ? (
                 <div>
                   <img
-                  src="images/default.jpg"
-                  alt="user"
-                  className={styles.profileImage}
-                />
-               
+                    src="images/default.jpg"
+                    alt="user"
+                    className={styles.profileImage}
+                  />
                 </div>
-                
               ) : (
                 <img
                   src={userProfile.userId.profilePicture}
@@ -126,12 +131,12 @@ export default function ProfilePage() {
             </div>
 
             <div className={styles.profileContainer_details}>
-            {isLoading && <Spinner/>}
+              {isLoading && <Spinner />}
               <div
                 style={{ display: "flex", gap: "0.7rem" }}
                 className={styles.details}
               >
-                <div style={{ flex: "0.8" }}>
+                <div style={{ flex: "0.8",display:"flex",justifyContent:"space-between" }}>
                   <div
                     style={{
                       display: "flex",
@@ -145,15 +150,17 @@ export default function ProfilePage() {
                       @{userProfile.userId.username}
                     </p>
                   </div>
-                  <button
-                    className={styles.editBtn}
-                    onClick={() => router.push("/form")}
-                  >
-                    Edit Details
-                  </button>
+                  <div>
+                    <button
+                      className={styles.editBtn}
+                      onClick={() => router.push("/form")}
+                    >
+                      Edit Details
+                    </button>
+                  </div>
                 </div>
 
-                <div
+                {/* <div
                   style={{ flex: "0.2" }}
                   className={styles.recentActivityContainer}
                 >
@@ -173,9 +180,77 @@ export default function ProfilePage() {
                       </div>
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
+
+            <div className={styles.myNetwork}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "2px",
+                }}
+              >
+                <div>
+                  <h4
+                    onClick={() => {
+                      router.push("/myconnection");
+                    }}
+                  >
+                    Friends
+                  </h4>
+                  <p>{authState.connectionRequest.length} friends</p>
+                </div>
+                <div>
+                  <p
+                    onClick={() => {
+                      router.push("/discover");
+                    }}
+                    style={{ color: "darkblue" }}
+                  >
+                    Find Friends
+                  </p>
+                </div>
+              </div>
+              {authState.connectionRequest &&
+              authState.connectionRequest.length !== 0 ? (
+                authState.connectionRequest
+                  .filter((connection) => connection.status_accepted !== null)
+                  .map((user) => (
+                    <div
+                      key={user._id}
+                      onClick={() => {
+                        router.push(`/view_profile/${user.userId.username}`);
+                      }}
+                      className={styles.userProfileCard_friend}
+                    >
+                      {user.userId.profilePicture === "default.jpg" ? (
+                        <img
+                          src="images/default.jpg"
+                          alt="You"
+                          className={styles.profileImage_friend}
+                        />
+                      ) : (
+                        <img
+                          src={user.userId.profilePicture}
+                          alt={`${user.userId.username}'s profile`}
+                          className={styles.profileImage_friend}
+                        />
+                      )}
+                      <div className={styles.cardContent}>
+                        <div className={styles.userInfo}>
+                          <h3>{user.userId.name}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+              ) : (
+                <p>No Friends found</p>
+              )}
+            </div>
+
             {/* Education Section */}
             <div className={styles.userDetails}>
               {/* Bio Section */}

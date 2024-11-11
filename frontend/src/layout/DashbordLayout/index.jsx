@@ -96,7 +96,7 @@ export default function DashboardLayout({ children }) {
             </div>
             <div
               onClick={() => {
-                handleNavigation("myconnection");
+                handleNavigation("/myconnection");
               }}
               className={`${styles.sideBarOption} ${
                 activeOption === "connection" ? styles.active : ""

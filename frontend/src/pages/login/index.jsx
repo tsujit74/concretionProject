@@ -151,7 +151,6 @@ export default function LoginComponent() {
             type: "success",
           })
         );
-        setEmail(""); // Clear email field after successful send
       } else {
         dispatch(
           setFlashMessage({
@@ -338,7 +337,7 @@ export default function LoginComponent() {
                   <div
                     style={{ textAlign: "left", color: "darkblue" }}
                     onClick={() => {
-                      setModal(true), console.log("sujit");
+                      setModal(true)
                     }}
                   >
                     <p>Forget Password</p>

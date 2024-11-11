@@ -108,7 +108,6 @@ export const register = async (req, res) => {
       message: "User registered successfully and email sent!",
     });
   } catch (error) {
-    console.error(error); // Log the error for debugging
     return res.status(500).json({ message: error.message });
   }
 };

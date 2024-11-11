@@ -160,7 +160,7 @@ export default function ViewProfilePage({ userProfile }) {
                       gap: "1em",
                     }}
                   >
-                    {userProfile.userId._id !== authState.user.userId._id && // Check if the user profile being viewed is not the authenticated user
+                    {userProfile.userId._id !== authState.user.userId._id &&
                       (isCurrentUserInConnection ? (
                         <div>
                           <button className={styles.connectedButton}>
