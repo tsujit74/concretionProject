@@ -63,11 +63,12 @@ export default function Contact() {
 
   return (
     <div>
-      <BackButton />
+      
       <div className={styles.contactContainer}>
+      <BackButton />
         <section className={styles.introSection}>
           <div style={{ display: "flex" }}>
-            <h2>Contact Us</h2>
+            <h3>Contact Us</h3>
           </div>
           <p>
             We’d love to hear from you! Whether you have a question, feedback,

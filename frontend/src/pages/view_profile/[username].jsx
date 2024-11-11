@@ -88,7 +88,12 @@ export default function ViewProfilePage({ userProfile }) {
   return (
     <UserLayout>
       <DashboardLayout>
-        <BackButton/>
+      <div style={{ display: "flex", alignItems: "center" }}>
+          <BackButton />{" "}
+          <div style={{ margin: "0 auto", fontWeight: "bold" }}>
+            {authState.profileFetched ? <p>{authState.user.userId.name}</p>:<p></p>}
+          </div>
+        </div>
         <div className={styles.container}>
           <div className={styles.backDropContainer}>
           {userProfile.userId.profilePicture === "default.jpg" ? (

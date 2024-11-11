@@ -133,10 +133,10 @@ export default function ProfilePage() {
             <div className={styles.profileContainer_details}>
               {isLoading && <Spinner />}
               <div
-                style={{ display: "flex", gap: "0.7rem" }}
+                style={{justifyContent:"space-between", gap: "0.7rem",alignItems:"center" }}
                 className={styles.details}
               >
-                <div style={{ flex: "0.8",display:"flex",justifyContent:"space-between" }}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center" }}>
                   <div
                     style={{
                       display: "flex",
@@ -145,17 +145,19 @@ export default function ProfilePage() {
                       gap: "1.2rem",
                     }}
                   >
+                    <div>
                     <h2>{userProfile.userId.name}</h2>
                     <p style={{ color: "gray" }}>
                       @{userProfile.userId.username}
                     </p>
+                    </div>
                   </div>
                   <div>
                     <button
                       className={styles.editBtn}
                       onClick={() => router.push("/form")}
                     >
-                      Edit Details
+                      Edit
                     </button>
                   </div>
                 </div>
