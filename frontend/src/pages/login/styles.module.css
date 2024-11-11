@@ -117,7 +117,58 @@
   width: 60%;
 }
 
-/* Responsive Breakpoints */
+/* Main container for modal - centers it and adds a backdrop */
+.reset_password_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent backdrop */
+  z-index: 1000; /* ensure it sits on top */
+}
+
+/* Main modal box */
+.reset_password {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.reset_inputField {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.reset_buttonWithOutlineRight {
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.reset_buttonWithOutlineRight p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
 @media (max-width: 1024px) {
   .cardContainer {
       width: 90vw;

@@ -3,12 +3,14 @@ import {
   acceptConnectionRequest,
   commentPost,
   downloadProfile,
+  forgetPassword,
   getAllUserProfile,
   getMyConnectionRequest,
   getUserAndProfile,
   getUserProfileAndUserBasedOneUsername,
   login,
   register,
+  resetPassword,
   search,
   sendConnectionRequest,
   sendMessage,
@@ -70,5 +72,7 @@ router.route("/accept_connection_request").post(acceptConnectionRequest);
 router.route("/get_profile_based_on_username").get(getUserProfileAndUserBasedOneUsername);
 router.route("/send_message").post(sendMessage);
 router.route("/search").get(search);
+router.route("/forget_password").post(forgetPassword);
+router.route("/reset_password").post(resetPassword);
 
 export default router;

@@ -146,14 +146,17 @@ export const login = async (req, res) => {
       text: `Welcome back, ${email}!\nWe're glad to see you again! If you haven’t changed your password recently, we encourage you to do so for added security. Your account safety is important to us!\nIf you have any questions or need assistance, feel free to reach out.\n\nBest Regards,\nThe CONCERTION Team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
 
-    return res.json({ token, user: {
-      username: user.username,
-      email: user.email,
-      name:user.name,
-      profilePicture,
-    }, });
+    return res.json({
+      token,
+      user: {
+        username: user.username,
+        email: user.email,
+        name: user.name,
+        profilePicture: user.profilePicture,
+      },
+    });
   } catch (error) {
     console.error(error); // Log the error for debugging
     return res.status(500).json({ message: error.message });
@@ -479,9 +482,62 @@ export const search = async (req, res) => {
   }
 };
 
-// export const editUser = async (req,res) => {
-//   const {name,email,token,...userData} = req.body;
+export const forgetPassword = async (req, res) => {
+  const { email } = req.body;
 
-//   const user = await User.findOne({token:token})
+  try {
+    const user = await User.findOne({ email });
 
-// }
+    if (!user) return res.status(404).json({ message: "User Not found!" });
+
+    const code = crypto.randomBytes(3).toString("hex");
+    user.resetCode = code;
+    user.resetCodeExpires = Date.now() + 3600000;
+    await user.save();
+
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_USER,
+      subject: "Password Reset",
+      text: `Your password reset code is: ${code}\n\nThis code is valid for 1 hour. \nDon't share with anyone.`,
+    };
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({
+      message: `Password Reset code Sent to Your Email ${user.email}`,
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "Error Sending Email try Again" });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, code, password } = req.body;
+    if (!email || !code || !password) {
+      return res.status(400).json({ message: "All fields are required!" });
+    }
+    const user = await User.findOne({
+      email,
+      resetCode: code,
+      resetCodeExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Password Reset Code is invalid or has expired" });
+    }
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters long." });
+    }
+    user.password = await bcrypt.hash(password, 10);
+    user.resetCode = undefined;
+    user.resetCodeExpires = undefined;
+    await user.save();
+    res.status(200).json({ message: "Password Updated!" });
+  } catch (err) {
+    res.status(500).json({ message: "Could not update password." });
+  }
+};

@@ -13,6 +13,7 @@ import BackButton from "@/Components/Backbutton";
 import Spinner from "@/Components/Spinner";
 import { setFlashMessage } from "@/config/reducer/flashMessage";
 import FlagMessage from "@/Components/Flashmessage";
+import { clientServer } from "@/config";
 
 export default function LoginComponent() {
   const authState = useSelector((state) => state.auth);
@@ -27,6 +28,9 @@ export default function LoginComponent() {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [resetPasswod, setResetPassword] = useState(false);
+  const [code,setCode] = useState("")
 
   useEffect(() => {
     if (authState.loggenIn) {
@@ -46,18 +50,16 @@ export default function LoginComponent() {
   }, [userLoginMethod]);
 
   const handleRegister = async () => {
-    // Check for required fields
-    if (name==='' || username===''  || password===''  || email==='' ) {
+    if (name === "" || username === "" || password === "" || email === "") {
       dispatch(
         setFlashMessage({
           message: "All fields are required.",
           type: "error",
         })
       );
-      return; 
+      return;
     }
-  
-    // Validate email format
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       dispatch(
@@ -68,8 +70,7 @@ export default function LoginComponent() {
       );
       return;
     }
-  
-    // Validate password length
+
     if (password.length < 6) {
       dispatch(
         setFlashMessage({
@@ -79,8 +80,7 @@ export default function LoginComponent() {
       );
       return;
     }
-  
-    // Proceed with registration
+
     setIsLoading(true);
     try {
       await dispatch(registerUser({ username, password, email, name }));
@@ -89,14 +89,14 @@ export default function LoginComponent() {
       );
       setUserLoginMethod(true);
     } catch (error) {
-      const errorMessage = error.message || "Registration failed. Please try again.";
+      const errorMessage =
+        error.message || "Registration failed. Please try again.";
       dispatch(setFlashMessage({ message: errorMessage, type: "error" }));
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
+
   const handleLogin = async () => {
     setIsLoading(true);
     try {
@@ -111,11 +111,10 @@ export default function LoginComponent() {
   };
 
   const handleKeyDown = async (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       handleLogin();
     }
-  }
-  
+  };
 
   useEffect(() => {
     if (authState.message) {
@@ -128,20 +127,136 @@ export default function LoginComponent() {
     }
   }, [authState.message, dispatch]);
 
+  const sendCode = async () => {
+    if (!email) {
+      dispatch(
+        setFlashMessage({
+          message: "Email required.",
+          type: "error",
+        })
+      );
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await clientServer.post("api/users/forget_password", {
+        email: email,
+      });
+
+      if (response.status === 200) {
+        dispatch(
+          setFlashMessage({
+            message: "Reset code sent to your email.",
+            type: "success",
+          })
+        );
+        setEmail(""); // Clear email field after successful send
+      } else {
+        dispatch(
+          setFlashMessage({
+            message: "Failed to send reset code. Please try again.",
+            type: "error",
+          })
+        );
+      }
+      setResetPassword(true)
+      setIsLoading(false)
+    } catch (error) {
+      dispatch(
+        setFlashMessage({
+          message: error.message,
+          type: "error",
+        })
+      );
+      console.error("Error sending reset code:", error.message);
+    }finally{
+      setIsLoading(false)
+    }
+  };
+
+  const updatePassword = async () => {
+    if (!email || !code || !password) {
+      dispatch(
+        setFlashMessage({
+          message: "All field required.",
+          type: "error",
+        })
+      );
+      return;
+    }
+
+    if (password.length < 6) {
+      dispatch(
+        setFlashMessage({
+          message: "Password must be at least 6 characters long.",
+          type: "error",
+        })
+      );
+      return;
+    }
+
+    if (code.length !== 6) {
+      dispatch(
+        setFlashMessage({
+          message: "Password must be 6 characters long only.",
+          type: "error",
+        })
+      );
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await clientServer.post("api/users/reset_password", {
+        email: email,
+        code:code,
+        password:password,
+      });
+
+      if (response.status === 200) {
+        dispatch(
+          setFlashMessage({
+            message: "Password Updated.",
+            type: "success",
+          })
+        );
+        setEmail(""); 
+      } else {
+        dispatch(
+          setFlashMessage({
+            message: "Some Error Please try again.",
+            type: "error",
+          })
+        );
+      }
+      setIsLoading(false)
+      setModal(false);
+    } catch (error) {
+      dispatch(
+        setFlashMessage({
+          message: error.message,
+          type: "error",
+        })
+      );
+      console.error("Passsword Not Changed:", error.message);
+    }finally{
+      setIsLoading(false)
+    }
+  }
+
   return (
     <UserLayout>
       <div>
-        <FlagMessage/>
+        <FlagMessage />
         <nav className={styles.navBar}>
           <img
-          src="/images/conclogo.png"
+            src="/images/conclogo.png"
             style={{ cursor: "pointer" }}
             onClick={() => {
               router.push("/");
             }}
-          >
-           
-          </img>
+          ></img>
 
           <div className={styles.navBarOptionContainer}>
             <div
@@ -157,7 +272,10 @@ export default function LoginComponent() {
 
         <div
           className={styles.container}
-          style={{ opacity: isLoading ? 0.5 : 1, cursor:isLoading?"progress": "pointer" }}
+          style={{
+            opacity: isLoading ? 0.5 : 1,
+            cursor: isLoading ? "progress" : "pointer",
+          }}
         >
           <div className={styles.cardContainer}>
             <BackButton />
@@ -216,6 +334,16 @@ export default function LoginComponent() {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
+                {userLoginMethod && (
+                  <div
+                    style={{ textAlign: "left", color: "darkblue" }}
+                    onClick={() => {
+                      setModal(true), console.log("sujit");
+                    }}
+                  >
+                    <p>Forget Password</p>
+                  </div>
+                )}
 
                 <div
                   onClick={() => {
@@ -251,6 +379,71 @@ export default function LoginComponent() {
           </div>
         </div>
       </div>
+
+      {modal && (
+        <div
+          className={styles.reset_password_container}
+          onClick={() => {
+            setModal(false), setResetPassword(false);
+          }}
+        >
+          {isLoading && <Spinner/>}
+          <div
+            className={styles.reset_password}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <div className={styles.inputRow}>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.reset_inputField}
+                type="email"
+                placeholder="Enter Your Email"
+                onKeyDown={handleKeyDown}
+              />
+            </div>
+
+            {resetPasswod && (
+              <>
+                <div className={styles.inputRow}>
+                  <input
+                    onChange={(e) => setCode(e.target.value)}
+                    className={styles.reset_inputField}
+                    type="text"
+                    placeholder="Code"
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
+                <div className={styles.inputRow}>
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={styles.reset_inputField}
+                    type="password"
+                    placeholder="Password"
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className={styles.reset_buttonWithOutlineRight}
+            >
+              {!resetPasswod ? (
+                <p
+                  onClick={() => {
+                    sendCode()
+                  }}
+                >
+                  Send Code
+                </p>
+              ) : (
+                <p onClick={()=>{updatePassword()}}>Update</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </UserLayout>
   );
 }
